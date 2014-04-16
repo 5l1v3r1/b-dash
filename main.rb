@@ -6,15 +6,8 @@ require 'open-uri'
 require 'nokogiri'
 
 ActiveRecord::Tasks::DatabaseTasks.db_dir = 'db'
-if settings.production?
-  set :database, ENV['DATABASE_URL'] || 'postgres://localhost/b-dash'
-else
-  set :database, "sqlite3:db/development.sqlite3"
-  # ActiveRecord::Base.establish_connection(
-  #   :adapter => 'sqlite3',
-  #   :dbfile =>  'db/development.db'
-  # )
-end
+
+set :database, ENV['DATABASE_URL'] || "sqlite3:db/development.sqlite3"
 
 if settings.production?
   use Rack::Auth::Basic do |username, password|
