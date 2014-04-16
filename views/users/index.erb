@@ -1,0 +1,27 @@
+<h1>Users</h1>
+
+<ul>
+<% @users.each do |user| %>
+<li data-id="<%= user.id %>">
+  <%= h user.username %>
+  &lt;<%= h user.email %>&gt;
+  bookmarklet -> <a href="javascript:window.open('http://<%= request.env['HTTP_HOST'] %>/bookmarks/new?username=<%= user.username %>&url='+escape(location.href));undefined;">b-</a>
+  <span class="deleteCmd" style="cursor:pointer;color:blue">[x]</span>
+</li>
+<% end %>
+</ul>
+
+<a href="/users/new">Add New</a>
+
+<script>
+  $('.deleteCmd').click(function() {
+    var el = $(this).parent();
+    if (confirm('are you sure to delete?')) {
+      $.post('/users/delete', {
+        id: el.data('id')
+      }, function() {
+        el.fadeOut(800);
+      });
+    }
+  });
+</script>

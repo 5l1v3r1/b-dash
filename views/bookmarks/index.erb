@@ -1,0 +1,25 @@
+<h1>Bookmarks</h1>
+
+<ul>
+<% @bookmarks.each do |bookmark| %>
+<li data-id="<%= bookmark.id %>">
+  <a href="<%= bookmark.url %>"><%= h(bookmark.title ? bookmark.title : bookmark.url) %></a> by <%= bookmark.try(:user).try(:username) %> at <%= Time.parse(bookmark.created_at).strftime("%Y/%m/%d %H:%M") %>
+  <span class="deleteCmd" style="cursor:pointer;color:blue">[x]</span>
+</li>
+<% end %>
+</ul>
+
+<a href="/bookmarks/new">Add New</a>
+
+<script>
+  $('.deleteCmd').click(function() {
+    var el = $(this).parent();
+    if (confirm('are you sure to delete?')) {
+      $.post('/bookmarks/delete', {
+        id: el.data('id')
+      }, function() {
+        el.fadeOut(800);
+      });
+    }
+  });
+</script>
