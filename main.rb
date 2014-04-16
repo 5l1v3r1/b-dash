@@ -7,7 +7,7 @@ require 'nokogiri'
 
 ActiveRecord::Tasks::DatabaseTasks.db_dir = 'db'
 if settings.production?
-  set :database, ENV['DATABASE_URL']
+  set :database, ENV['DATABASE_URL'] || 'postgres://localhost/b-dash'
 else
   set :database, "sqlite3:db/development.sqlite3"
   # ActiveRecord::Base.establish_connection(
