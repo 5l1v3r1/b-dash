@@ -2,8 +2,6 @@
 
 % bundle install
 
-% sqlite3 b-dash.db
+% bundle exec rake db:migrate
 
-sqlite> .read import.sql
-
-% ruby main.rb
+% foreman start

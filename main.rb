@@ -1,13 +1,20 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'active_record'
+require 'sinatra/activerecord'
 require 'open-uri'
 require 'nokogiri'
 
-ActiveRecord::Base.establish_connection(
-  "adapter" => "sqlite3",
-  "database" => "./b-dash.db"
-)
+ActiveRecord::Tasks::DatabaseTasks.db_dir = 'db'
+if settings.production?
+  set :database, ENV['DATABASE_URL']
+else
+  set :database, "sqlite3:db/development.sqlite3"
+  # ActiveRecord::Base.establish_connection(
+  #   :adapter => 'sqlite3',
+  #   :dbfile =>  'db/development.db'
+  # )
+end
 
 if settings.production?
   use Rack::Auth::Basic do |username, password|
