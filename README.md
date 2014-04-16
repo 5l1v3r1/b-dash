@@ -1,12 +1,6 @@
 # Setup
 
-% gem install sinatra 
-
-% gem install sinatra-contrib
-
-% gem install active_record
-
-% gem install nokogiri
+% bundle install
 
 % sqlite3 b-dash.db
 
