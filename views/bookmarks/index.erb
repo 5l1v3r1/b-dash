@@ -3,7 +3,7 @@
 <ul>
 <% @bookmarks.each do |bookmark| %>
 <li data-id="<%= bookmark.id %>">
-  <a href="<%= bookmark.url %>"><%= h(bookmark.title ? bookmark.title : bookmark.url) %></a> by <%= bookmark.try(:user).try(:username) %> at <%= Time.parse(bookmark.created_at).strftime("%Y/%m/%d %H:%M") %>
+  <a href="<%= bookmark.url %>"><%= h(bookmark.title ? bookmark.title : bookmark.url) %></a> by <%= bookmark.try(:user).try(:username) %> at <%= bookmark.created_at.strftime("%Y/%m/%d %H:%M") %>
   <span class="deleteCmd" style="cursor:pointer;color:blue">[x]</span>
 </li>
 <% end %>

@@ -4,6 +4,7 @@ require 'active_record'
 require 'sinatra/activerecord'
 require 'open-uri'
 require 'nokogiri'
+require 'kconv'
 
 ActiveRecord::Tasks::DatabaseTasks.db_dir = 'db'
 
@@ -68,8 +69,9 @@ end
 
 post '/bookmarks/create' do
   user = User.where(username: params[:username]).first
-  title = Nokogiri::HTML(open(params[:url])).at_css("title").text
-  Bookmark.create(url: params[:url], title: title, user_id: user && user.id, created_at: Time.now)
+  html = open(params[:url], "r:binary").read
+  title = Nokogiri::HTML(html.toutf8, nil, 'utf-8').at_css("title").text
+  Bookmark.create(url: params[:url], title: title, user_id: user && user.id)
   redirect '/bookmarks'
 end
 
