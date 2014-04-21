@@ -5,6 +5,7 @@ require 'sinatra/activerecord'
 require 'open-uri'
 require 'nokogiri'
 require 'kconv'
+require 'pony'
 
 ActiveRecord::Tasks::DatabaseTasks.db_dir = 'db'
 
@@ -30,6 +31,30 @@ end
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
+end
+
+require 'pony'
+
+if ENV['RACK_ENV'] == 'production'
+  Pony.options = {
+    port: '587',
+    via: :smtp,
+    via_options: {
+      address: 'smtp.sendgrid.net',
+      port: '587',
+      enable_starttls_auto: true,
+      user_name: ENV['SENDGRID_USERNAME'],
+      password: ENV['SENDGRID_PASSWORD'],
+      authentication: :plain,
+      domain: ENV['SENDGRID_DOMAIN']
+    }
+  }
+else
+  require "letter_opener"
+  Pony.options = {
+    via: LetterOpener::DeliveryMethod,
+    via_options: {location: File.expand_path('../tmp/letter_opener', __FILE__)}
+  }
 end
 
 get '/' do
@@ -72,6 +97,12 @@ post '/bookmarks/create' do
   html = open(params[:url], "r:binary").read
   title = Nokogiri::HTML(html.toutf8, nil, 'utf-8').at_css("title").text
   Bookmark.create(url: params[:url], title: title, user_id: user && user.id)
+
+  Pony.mail :to => User.all.map(&:email).join(','),
+            :from => user.email,
+            :subject => '[b-dash] A new bookmark is posted!',
+            :body => "#{title}\n#{params[:url]}"
+
   redirect '/bookmarks'
 end
 
