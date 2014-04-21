@@ -37,7 +37,6 @@ require 'pony'
 
 if ENV['RACK_ENV'] == 'production'
   Pony.options = {
-    port: '587',
     via: :smtp,
     via_options: {
       address: 'smtp.sendgrid.net',
@@ -46,7 +45,7 @@ if ENV['RACK_ENV'] == 'production'
       user_name: ENV['SENDGRID_USERNAME'],
       password: ENV['SENDGRID_PASSWORD'],
       authentication: :plain,
-      domain: ENV['SENDGRID_DOMAIN']
+      domain: 'heroku.com'
     }
   }
 else
