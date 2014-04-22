@@ -103,7 +103,7 @@ post '/bookmarks/create' do
 
   Pony.mail :to => User.all.map(&:email).join(','),
             :from => user.email,
-            :subject => '[b-dash] A new bookmark is posted!',
+            :subject => "[b-dash]#{title}",
             :body => "#{title}\n#{params[:url]}"
 
   redirect '/bookmarks'
