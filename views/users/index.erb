@@ -6,9 +6,9 @@
   <%= h user.username %>
   &lt;<%= h user.email %>&gt;
   <% if ios? %>
-  bookmarklet -> <textarea>javascript:window.open('http://<%= request.env['HTTP_HOST'] %>/bookmarks/new?username=<%= user.username %>&url='+escape(location.href));undefined;</textarea>
+  bookmarklet -> <textarea>javascript:location.href='http://<%= request.env['HTTP_HOST'] %>/bookmarks/new?username=<%= user.username %>&url='+escape(location.href)</textarea>
   <% else %>
-  bookmarklet -> <a href="javascript:window.open('http://<%= request.env['HTTP_HOST'] %>/bookmarks/new?username=<%= user.username %>&url='+escape(location.href));undefined;">b-</a>
+  bookmarklet -> <a href="javascript:location.href='http://<%= request.env['HTTP_HOST'] %>/bookmarks/new?username=<%= user.username %>&url='+escape(location.href)">b-</a>
   <% end %>
   <span class="deleteCmd" style="cursor:pointer;color:blue">[x]</span>
 </li>
