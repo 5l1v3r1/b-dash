@@ -31,6 +31,10 @@ end
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
+
+  def ios?
+    request.user_agent =~ /iPhone|iPod|iPad/ && request.user_agent =~ /Safari/
+  end
 end
 
 require 'pony'

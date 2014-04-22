@@ -5,7 +5,11 @@
 <li data-id="<%= user.id %>">
   <%= h user.username %>
   &lt;<%= h user.email %>&gt;
+  <% if ios? %>
+  bookmarklet -> <textarea>javascript:window.open('http://<%= request.env['HTTP_HOST'] %>/bookmarks/new?username=<%= user.username %>&url='+escape(location.href));undefined;</textarea>
+  <% else %>
   bookmarklet -> <a href="javascript:window.open('http://<%= request.env['HTTP_HOST'] %>/bookmarks/new?username=<%= user.username %>&url='+escape(location.href));undefined;">b-</a>
+  <% end %>
   <span class="deleteCmd" style="cursor:pointer;color:blue">[x]</span>
 </li>
 <% end %>
