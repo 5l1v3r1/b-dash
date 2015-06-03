@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require 'active_record'
 require 'sinatra/activerecord'
 require 'open-uri'
+require 'open_uri_redirections'
 require 'nokogiri'
 require 'kconv'
 require 'pony'
@@ -97,7 +98,7 @@ end
 
 post '/bookmarks/create' do
   user = User.where(username: params[:username]).first
-  html = open(params[:url], "r:binary").read
+  html = open(params[:url], "r:binary", :allow_redirections => :all).read
   title = Nokogiri::HTML(html.toutf8, nil, 'utf-8').at_css("title").text
   Bookmark.create(url: params[:url], title: title, user_id: user && user.id)
 
