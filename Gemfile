@@ -7,6 +7,7 @@ gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
 gem 'nokogiri'
 gem 'pony'
 gem 'open_uri_redirections'
+gem 'certified'
 
 group :development do
   gem 'sqlite3'
