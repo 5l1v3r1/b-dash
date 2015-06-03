@@ -98,7 +98,7 @@ end
 
 post '/bookmarks/create' do
   user = User.where(username: params[:username]).first
-  html = open(params[:url], "r:binary", :allow_redirections => :all).read
+  html = open(params[:url], "r:binary", :allow_redirections => :all, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read
   title = Nokogiri::HTML(html.toutf8, nil, 'utf-8').at_css("title").text
   Bookmark.create(url: params[:url], title: title, user_id: user && user.id)
 
