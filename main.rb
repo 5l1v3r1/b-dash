@@ -7,6 +7,7 @@ require 'open_uri_redirections'
 require 'nokogiri'
 require 'kconv'
 require 'pony'
+require 'certified'
 
 ActiveRecord::Tasks::DatabaseTasks.db_dir = 'db'
 
